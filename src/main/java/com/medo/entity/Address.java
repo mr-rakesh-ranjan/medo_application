@@ -1,5 +1,6 @@
 package com.medo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Address {
     private String city;
     private String state;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = Customer.class)
     @JoinColumn(
             name = "customer_id"

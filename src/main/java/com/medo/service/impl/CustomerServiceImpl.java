@@ -1,9 +1,7 @@
 package com.medo.service.impl;
 
 import com.medo.dao.CustomerDao;
-import com.medo.dto.CustomerDto;
-import com.medo.dto.CustomerRequest;
-import com.medo.dtoBuilder.CustomerBuilder;
+//import com.medo.dto.CustomerDto;
 import com.medo.entity.Address;
 import com.medo.entity.Customer;
 import com.medo.service.CustomerService;
@@ -20,12 +18,24 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerDao customerDao;
 
+//    private Add
+    @Autowired
     private ModelMapper modelMapper;
 
-//    @Override
+    @Override
     public Customer createCustomer(Customer customer) {
-        this.customerDao.save(customer);
-        return customer;
+        Customer customer1 = new Customer();
+        List<Address> list  = customer.getAddresses();
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setCustomer(customer);
+        }
+        try {
+            customer.setAddresses(list);
+             customer1 = this.customerDao.save(customer);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return customer1;
     }
 
     @Override
@@ -37,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<Customer> customers() {
-        List<Customer> list = new ArrayList<>();
+        List<Customer> list;
         list = this.customerDao.findAll();
         return list;
     }
@@ -51,13 +61,6 @@ public class CustomerServiceImpl implements CustomerService {
     public void deleteCustomer(String customerId) {
         Customer customer = getCustomerById(customerId);
         this.customerDao.delete(customer);
-    }
-
-    @Override
-    public Customer createCustomer(CustomerDto customerDto) {
-        Customer customer = this.modelMapper.map(customerDto, Customer.class);
-        Customer customer1 = this.customerDao.save(customer);
-        return customer1;
     }
 
 

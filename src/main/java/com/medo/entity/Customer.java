@@ -1,5 +1,6 @@
 package com.medo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,12 +29,21 @@ public class Customer {
     private String phoneNumber;
     private String password;
     private String email;
+
+//    @JsonIgnore
     @OneToMany(mappedBy = "customer",
             fetch =  FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Address> address;
+    private List<Address> addresses;
+
+    @OneToMany(mappedBy = "customer1",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Order> orders;
 
     public Customer(String name, String phoneNumber, String password, String email) {
         this.email = email;
@@ -49,7 +59,7 @@ public class Customer {
                 .add("name='" + name + "'")
                 .add("phoneNumber='" + phoneNumber + "'")
                 .add("password='" + password + "'")
-                .add("address=" + address)
+                .add("address=" + addresses)
                 .add("email='" + email + "'")
                 .toString();
     }
