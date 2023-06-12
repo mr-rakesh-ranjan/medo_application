@@ -1,6 +1,6 @@
 package com.medo.service.impl;
 
-import com.medo.dao.MedicineDao;
+import com.medo.repository.MedicineRepo;
 import com.medo.dto.MedicineDto;
 import com.medo.entity.Medicine;
 import com.medo.service.MedicineService;
@@ -14,7 +14,7 @@ import java.util.List;
 public class MedicineServiceImpl implements MedicineService {
 
     @Autowired
-    private MedicineDao medicineDao;
+    private MedicineRepo medicineRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -23,34 +23,34 @@ public class MedicineServiceImpl implements MedicineService {
     public Medicine createMedicine(MedicineDto medicineDto) {
         System.out.println(medicineDto);
         Medicine medicine = this.modelMapper.map(medicineDto, Medicine.class);
-        Medicine createdMedicine = this.medicineDao.save(medicine);
+        Medicine createdMedicine = this.medicineRepo.save(medicine);
         return createdMedicine;
     }
 
     @Override
     public Medicine updateMedicine(MedicineDto medicineDto, Long medId) {
         Medicine medicine;
-        medicine = this.medicineDao.getMedicineByMedId(medId);
+        medicine = this.medicineRepo.getMedicineByMedId(medId);
         System.out.println(medicine + "this is med by dao layer");
         medicine = this.modelMapper.map(medicineDto, Medicine.class);
         medicine.setMedId(medId);
         System.out.println("med by service layer " + medicine);
-        return this.medicineDao.save(medicine);
+        return this.medicineRepo.save(medicine);
     }
 
     @Override
     public List<Medicine> getMedicines() {
-        return this.medicineDao.findAll();
+        return this.medicineRepo.findAll();
     }
 
     @Override
     public Medicine getMedicine(long medId) {
-        return this.medicineDao.getMedicineByMedId(medId);
+        return this.medicineRepo.getMedicineByMedId(medId);
     }
 
     @Override
     public void deleteMedicine(long medId) {
-        Medicine medicine = this.medicineDao.getMedicineByMedId(medId);
-        this.medicineDao.delete(medicine);
+        Medicine medicine = this.medicineRepo.getMedicineByMedId(medId);
+        this.medicineRepo.delete(medicine);
     }
 }

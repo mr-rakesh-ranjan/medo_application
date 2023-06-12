@@ -2,10 +2,7 @@ package com.medo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -16,6 +13,7 @@ import java.util.StringJoiner;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Address {
 
     @Id
@@ -50,15 +48,16 @@ public class Address {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Address.class.getSimpleName() + "[", "]")
-                .add("addressId='" + addressId + "'")
-                .add("flatNo='" + flatNo + "'")
-                .add("streetName='" + streetName + "'")
-                .add("locality='" + locality + "'")
-                .add("pincode='" + pincode + "'")
-                .add("city='" + city + "'")
-                .add("state='" + state + "'")
-                .add("customer=" + customer)
-                .toString();
+        final StringBuilder sb = new StringBuilder("Address{");
+        sb.append("addressId=").append(addressId);
+        sb.append(", flatNo='").append(flatNo).append('\'');
+        sb.append(", streetName='").append(streetName).append('\'');
+        sb.append(", locality='").append(locality).append('\'');
+        sb.append(", pincode='").append(pincode).append('\'');
+        sb.append(", city='").append(city).append('\'');
+        sb.append(", state='").append(state).append('\'');
+        sb.append(", customer=").append(customer);
+        sb.append('}');
+        return sb.toString();
     }
 }

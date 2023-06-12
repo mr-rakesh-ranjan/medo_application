@@ -1,28 +1,18 @@
 package com.medo.dto;
 
-import lombok.AllArgsConstructor;
+import com.medo.entity.Customer;
+import com.medo.entity.Medicine;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.StringJoiner;
+import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class OrderDto {
 
-    private String status;
-    private long totalAmount;
-    private int items;
+    private List<Medicine> medicineList;
+    private int totalItems;
+//    private double
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", OrderDto.class.getSimpleName() + "[", "]")
-                .add("status='" + status + "'")
-                .add("totalAmount=" + totalAmount)
-                .add("items=" + items)
-                .toString();
-    }
 }

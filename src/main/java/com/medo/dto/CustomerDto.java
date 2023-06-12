@@ -1,15 +1,16 @@
 package com.medo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.medo.entity.Address;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class CustomerDto {
     private  String customerId;
     private String name;
@@ -17,5 +18,10 @@ public class CustomerDto {
     private String password;
     private String email;
     private List<Address> addresses;
+
+    @JsonIgnore
+    private String getPassword(){
+        return  this.password;
+    }
 
 }

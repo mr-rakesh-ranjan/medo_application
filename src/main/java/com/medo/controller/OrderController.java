@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/order/")
+@CrossOrigin(origins = "*")
 public class OrderController {
 
     @Autowired
@@ -21,9 +22,10 @@ public class OrderController {
     private ModelMapper modelMapper;
 
     @PostMapping("{cust_id}/create")
-    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto, @PathVariable String cust_id){
-        OrderDto orderDto1 = this.orderService.createOrder(orderDto, cust_id);
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Order> createOrder(@RequestBody OrderDto orderDto, @PathVariable String cust_id){
+       System.out.println("Controller 1");
+        Order order = this.orderService.createOrder(orderDto, cust_id);
+        System.out.println("controller 2");
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 }

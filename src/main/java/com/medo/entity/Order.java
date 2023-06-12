@@ -1,10 +1,10 @@
 package com.medo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.StringJoiner;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -17,9 +17,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long orderId;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate createdDate;
     private String status;
-    private long totalAmount;
-    private int items;
 
 
     @JsonIgnore
@@ -27,14 +27,6 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer1;
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Order.class.getSimpleName() + "[", "]")
-                .add("orderId=" + orderId)
-                .add("status='" + status + "'")
-                .add("totalAmount=" + totalAmount)
-                .add("items=" + items)
-                .add("customer='" + customer1 + "'")
-                .toString();
-    }
+
+
 }

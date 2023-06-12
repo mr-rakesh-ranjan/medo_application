@@ -2,22 +2,21 @@ package com.medo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 @Entity
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class Customer {
+public class Customer implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "customerId-generator")
@@ -38,6 +37,8 @@ public class Customer {
     )
     private List<Address> addresses;
 
+
+    @JsonIgnore
     @OneToMany(mappedBy = "customer1",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
@@ -45,22 +46,47 @@ public class Customer {
     )
     private List<Order> orders;
 
-    public Customer(String name, String phoneNumber, String password, String email) {
-        this.email = email;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
+    @JsonIgnore
+    @Enumerated(EnumType.STRING)
+    private  Role role;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    private List<Token> tokens;
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @JsonIgnore
     @Override
-    public String toString() {
-        return new StringJoiner(", ", Customer.class.getSimpleName() + "[", "]")
-                .add("customerId='" + customerId + "'")
-                .add("name='" + name + "'")
-                .add("phoneNumber='" + phoneNumber + "'")
-                .add("password='" + password + "'")
-                .add("address=" + addresses)
-                .add("email='" + email + "'")
-                .toString();
+    public String getUsername() {
+        return this.email;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

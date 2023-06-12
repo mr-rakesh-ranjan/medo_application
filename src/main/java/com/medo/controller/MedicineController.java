@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/medicine")
+@RequestMapping("/api/v1/public/medicine")
+@CrossOrigin(origins = "*")
 public class MedicineController {
 
     @Autowired
