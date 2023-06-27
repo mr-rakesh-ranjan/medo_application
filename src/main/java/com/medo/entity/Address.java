@@ -37,15 +37,6 @@ public class Address {
     )
     private Customer customer;
 
-    public Address(String flatNo, String streetName, String locality, String pincode, String city, String state) {
-        this.flatNo = flatNo;
-        this.streetName = streetName;
-        this.locality = locality;
-        this.pincode = pincode;
-        this.city = city;
-        this.state = state;
-    }
-
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Address{");
@@ -56,7 +47,7 @@ public class Address {
         sb.append(", pincode='").append(pincode).append('\'');
         sb.append(", city='").append(city).append('\'');
         sb.append(", state='").append(state).append('\'');
-        sb.append(", customer=").append(customer);
+//        sb.append(", customer=").append(customer);
         sb.append('}');
         return sb.toString();
     }

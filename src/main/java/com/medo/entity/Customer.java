@@ -29,7 +29,6 @@ public class Customer implements UserDetails {
     private String password;
     private String email;
 
-//    @JsonIgnore
     @OneToMany(mappedBy = "customer",
             fetch =  FetchType.LAZY,
             cascade = CascadeType.ALL,

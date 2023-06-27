@@ -20,7 +20,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepo customerRepo;
 
-//    private Add
     @Autowired
     private ModelMapper modelMapper;
 
@@ -42,10 +41,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer updateCustomer(String customerId, Customer customer) {
-        Customer customer1 = getCustomerById(customerId);
-        customer1 = this.customerRepo.save(customer);
-        return customer1;
+        return null;
     }
+
+//    @Override
+//    public Customer updateCustomer(String customerId, Customer customer) {
+//        Customer oldCustomer = this.customerRepo.findByCustomerId(customerId);
+//        Customer.builder()
+//                .
+//                .build();
+//        return oldCustomer;
+//    }
 
     @Override
     public List<Customer> customers() {
@@ -55,8 +61,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(String s) {
-        return this.customerRepo.findByCustomerId(s);
+    public CustomerDto getCustomerById(String s) {
+        Customer customer = this.customerRepo.findByCustomerId(s);
+        return this.modelMapper.map(customer, CustomerDto.class);
     }
 
     @Override
@@ -69,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteCustomer(String customerId) {
-        Customer customer = getCustomerById(customerId);
+        Customer customer = this.customerRepo.findByCustomerId(customerId);
         this.customerRepo.delete(customer);
     }
 

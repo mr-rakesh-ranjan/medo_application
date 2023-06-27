@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customer")
-//@RequestMapping("api/v1/public")
 @CrossOrigin(origins = "*")
 public class CustomerController {
 
@@ -37,16 +36,10 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}")
-    public Customer getCustomerById(@PathVariable("customerId") String customerId){
-        return this.customerService.getCustomerById(customerId);
+    public ResponseEntity<CustomerDto> getCustomerById(@PathVariable("customerId") String customerId){
+        return ResponseEntity.ok(this.customerService.getCustomerById(customerId));
     }
 
-    @PostMapping("/add-address/{customerId}")
-    public ResponseEntity<CustomerDto> addAddressToCustomer(@PathVariable("customerId") String customerId, @RequestBody AddressDto addressDto){
-        CustomerDto customerDto = this.customerService.addAddressToCustomer(customerId, addressDto);
-        System.out.println("this is from customer controllers" + customerDto);
-        return ResponseEntity.ok(customerDto);
-    }
 
 
 

@@ -11,8 +11,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class CustomerDto {
-    private  String customerId;
+    private String customerId;
     private String name;
     private String phoneNumber;
     private String password;
