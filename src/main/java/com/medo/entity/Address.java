@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import java.util.List;
 import java.util.StringJoiner;
 
 @Entity
@@ -17,10 +18,6 @@ import java.util.StringJoiner;
 public class Address {
 
     @Id
-//    @GeneratedValue(generator = "addressId-generator")
-//    @GenericGenerator(name = "addressId-generator",
-//            parameters = @Parameter(name = "prefix", value = "ADS"),
-//            strategy = "com.medo.utils.MyGenerator")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long addressId;
     private String flatNo;
@@ -29,6 +26,15 @@ public class Address {
     private String pincode;
     private String city;
     private String state;
+
+    @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "orderAddressTable",
+            joinColumns = @JoinColumn(name = "address-id", referencedColumnName = "addressId"),
+            inverseJoinColumns = @JoinColumn(name = "order-id", referencedColumnName = "OrderId")
+    )
+    @JsonIgnore
+    private List<Order> order;
 
     @JsonIgnore
     @ManyToOne(targetEntity = Customer.class)
